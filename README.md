@@ -29,38 +29,38 @@ BUT so far, it is not possible to merge the mesh strands and rigs to one, becaus
 
 So far, I created functions for the following Operations:
 - main(): main function.
- 1. check if there is an active object
-  1.1. call "get_vertex_loc()" and saves it in variable
-  1.2. create vertex group "Goal"
-  1.3. create vertex group "root"
-  1.4. call "create_vertex_groups(plain_verts)"
-  1.5. call "create_rig(plain_verts)"
-  1.6. set mesh object as active object (because after calling create_rig, the new rig is the active object)
-  1.7. create vertex group "MAIN_CNTRL.bone.000"
-  1.8. add "Armature" Modifier
-  1.9. add "Soft Body" Modifier
+	 - check if there is an active object
+	 - call "get_vertex_loc()" and saves it in variable
+	 - create vertex group "Goal"
+	 - create vertex group "root"
+	 - call "create_vertex_groups(plain_verts)"
+	 - call "create_rig(plain_verts)"
+	 - set mesh object as active object (because after calling create_rig, the new rig is the active object)
+	 - create vertex group "MAIN_CNTRL.bone.000"
+	 - add "Armature" Modifier
+	 - add "Soft Body" Modifier
 				
 - get_vertex_loc(): allows us to get the location of the vertices of the mesh. Returns the vertex coordinates in form of tuples. (variable = plain_verts)
 
 - create_vertex_groups(plain_verts): creates vertex groups 0 to inf.The second vertex will be assigned to group 0. It needs as attribute the vertex coordinates in tuple form(for range()). Returns "True" when finished.
 
 - create_rig(plain_verts): creates the rig. Needs as attribute the vertex coordinates in tuple form.
- 1. searches for a collection of specific name
-  1.1. if names not exist, a collection will be created and linked to active scene and collection
- 2. creates armature data and assign it to armature object
- 3. set armature to active object
- 4. toggle edit mode for bone creation
-  4.1. if rig in edit mode
-  4.2. make Bone Layers 0-3 visible
-   4.2.1. call "create_SIM_bones(plain_verts, data_armature)"
-   4.2.2. call "move_bones_to_other_layer(plain_verts, data_armature, "SIM", 1)"
-   4.2.3. call "create_CNTRL_bones(plain_verts, data_armature)"
-   4.2.4. call "move_bones_to_other_layer(plain_verts, data_armature, "CNTRL", 2)"
-  4.3. call "move_bones_to_other_layer(plain_verts, data_armature, "MAIN_CNTRL", 0)"
- 5. toggle pose mode for constraint assignment
-  5.1 create constraint "DAMPED TRACK", so the SIM.bones point to the vertex group of the former active mesh object
- 6. toggle object mode
- 7. Return True
+	- searches for a collection of specific name
+	- if names not exist, a collection will be created and linked to active scene and collection
+	- creates armature data and assign it to armature object
+	- set armature to active object
+	- toggle edit mode for bone creation
+	- if rig in edit mode
+	- make Bone Layers 0-3 visible
+	- call "create_SIM_bones(plain_verts, data_armature)"
+	- call "move_bones_to_other_layer(plain_verts, data_armature, "SIM", 1)"
+	- call "create_CNTRL_bones(plain_verts, data_armature)"
+	- call "move_bones_to_other_layer(plain_verts, data_armature, "CNTRL", 2)"
+	- call "move_bones_to_other_layer(plain_verts, data_armature, "MAIN_CNTRL", 0)"
+	- toggle pose mode for constraint assignment
+	- create constraint "DAMPED TRACK", so the SIM.bones point to the vertex group of the former active mesh object
+	- toggle object mode
+	- Return True
 
 - create_SIM_bones(plain_verts, data_armature): creates MAIN_CNTRL.bone.000 and SIM.bones + it parents and connects the SIM.bones to each other, except the SIM.bone.000. It is parented (not connected) to the MAIN_CNTRL.bone.000. Returns "True" when finished.
 
